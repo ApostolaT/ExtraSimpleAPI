@@ -8,6 +8,7 @@ require_once "/var/www/evozon2021/Lab7/config.php";
 $conn = setupConnection($config);
 if ($conn === null) {
     echo "DB connection issues" . PHP_EOL;
+    header("HTTP/1.1 500 Internal Server Error");
     exit();
 }
 
@@ -21,10 +22,13 @@ if (isset($_SESSION['admin']) === false) {
 
     if (!$result) {
         echo "Token insertion failed" . PHP_EOL;
+        header("HTTP/1.1 500 Internal Server Error");
         exit();
     }
     echo "Insertion successfull!" . PHP_EOL;
     $_SESSION['admin'] = $token;
 }
 $conn = null;
+header("HTTP/1.1 201 Created");
+
 
